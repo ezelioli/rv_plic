@@ -49,11 +49,11 @@ if (ALGORITHM == "SEQUENTIAL") begin : gen_sequential
   logic irq_next;
   logic [SRCW-1:0] irq_id_next;
   always_comb begin
-    max_prio = threshold + 1'b1; // Priority strictly greater than threshold
+    max_prio = threshold;
     irq_id_next = '0; // default: No Interrupt
     irq_next = 1'b0;
     for (int i = N_SOURCE-1 ; i >= 0 ; i--) begin
-      if ((ip[i] & ie[i]) == 1'b1 && prio[i] >= max_prio) begin
+      if ((ip[i] & ie[i]) == 1'b1 && prio[i] > max_prio) begin
         max_prio = prio[i];
         irq_id_next = SRCW'(i+1);
         irq_next = 1'b1;
